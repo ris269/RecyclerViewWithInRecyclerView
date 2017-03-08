@@ -27,6 +27,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //viewtype ko anushar,  2 ta view typecha
         LayoutInflater inflater = LayoutInflater.from(context);
         View view;
         RecyclerView.ViewHolder holder;
@@ -53,17 +54,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (position) {
             case 0:
-                HoriAdapter adapter = new HoriAdapter(context);
-                HorizontalViewHolder horizontalViewHolder = (HorizontalViewHolder) holder;
-                horizontalViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                horizontalViewHolder.recyclerView.setAdapter(adapter);
-
+                horizontalView((HorizontalViewHolder) holder);
                 break;
             case 1:
-                VerticalAdapter adapter1 = new VerticalAdapter(context);
-                VerticalViewHolder verticalViewHolder = (VerticalViewHolder) holder;
-                verticalViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                verticalViewHolder.recyclerView.setAdapter(adapter1);
+                verticalView((VerticalViewHolder) holder);
+                break;
+            case 2:
+                horizontalView((HorizontalViewHolder) holder);
+                break;
+            case 3:
+                verticalView((VerticalViewHolder) holder);
                 break;
 //
         }
@@ -71,19 +71,37 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+    private void verticalView(VerticalViewHolder holder) {
+        VerticalAdapter adapter1 = new VerticalAdapter(context);
+        VerticalViewHolder verticalViewHolder = holder;//this is main thiing
+        verticalViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        verticalViewHolder.recyclerView.setAdapter(adapter1);
+    }
+
+    private void horizontalView(HorizontalViewHolder holder) {
+        HoriAdapter adapter = new HoriAdapter(context);
+        HorizontalViewHolder horizontalViewHolder = holder;
+        horizontalViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        horizontalViewHolder.recyclerView.setAdapter(adapter);
+    }
+
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 4;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return 0;
-        } else if (position == 1)
+        } else if (position == 1) {
             return 1;
-        else
+        } else if (position == 2) {
+            return 0;
+        } else if (position == 3) {
+            return 1;
+        } else
             return super.getItemViewType(position);
     }
 
